@@ -1,4 +1,5 @@
 const API_URL = 'https://reqres.in/api';
+const API_KEY = 'reqres_87623f9596ec4762a191000ae2befe2e';
 
 export interface User {
   id: number;
@@ -15,7 +16,10 @@ interface LoginResponse {
 export async function loginRequest(email: string, password: string): Promise<string> {
   const response = await fetch(`${API_URL}/login`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': API_KEY,
+    },
     body: JSON.stringify({ email, password }),
   });
 
@@ -29,7 +33,9 @@ export async function loginRequest(email: string, password: string): Promise<str
 }
 
 export async function fetchUsers(): Promise<User[]> {
-  const response = await fetch(`${API_URL}/users?per_page=12`);
+  const response = await fetch(`${API_URL}/users?per_page=12`, {
+    headers: { 'x-api-key': API_KEY },
+  });
   const data = await response.json();
   return data.data;
 }
